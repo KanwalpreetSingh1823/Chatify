@@ -1,6 +1,7 @@
 import { generateToken } from "../lib/utils.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
+import cloudinary from "../lib/cloudinary.js";
 
 export const signup = async(req, res) =>{
   // Destructuring all the required information from the body of the headers/ req
@@ -118,3 +119,43 @@ export const logout = async (req, res) =>{
         res.status(500).json({ message: "Internal Server Error" });
     }
 }
+
+export const updateProfile = async (req, res) => {
+    try {
+        
+      // Getting the profile pic sent by user from the body
+      const { profilePic } = req.body;
+      const userId = req.user._id;
+  
+      // If there is no profile pic, then send the status code with msg
+      if (!profilePic) {
+        return res.status(400).json({ message: "Profile pic is required" });
+      }
+  
+      // Now as profilePic exists, upload it onto the cloudinary cloud bucket
+      const uploadResponse = await cloudinary.uploader.upload(profilePic);
+      // Now after the pic is uploaded, then update the profilePic url in our database, to fetch the image via a url from cloudinary
+      const updatedUser = await User.findByIdAndUpdate(
+        userId,
+        { profilePic: uploadResponse.secure_url },
+        { new: true }   // If set to true, this returns the object back, after the updates are applied
+      );
+      
+      // Send the updated user back to client
+      res.status(200).json(updatedUser);
+
+    } catch (error) {
+      console.log("error in update profile:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+export const checkAuth = (req, res) => {
+    try {
+        // Send the authenticated user back to client
+      res.status(200).json(req.user);
+    } catch (error) {
+      console.log("Error in checkAuth controller", error.message);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+};
