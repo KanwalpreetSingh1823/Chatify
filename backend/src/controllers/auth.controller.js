@@ -9,7 +9,7 @@ export const signup = async(req, res) =>{
   // Handling in try catch to avoid hanging up the application
   try {
 
-    // First-Check that are all the fields provided by the user
+    // First-Check that are all the fields provided by the user ?
     if (!fullName || !email || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
@@ -19,7 +19,7 @@ export const signup = async(req, res) =>{
       return res.status(400).json({ message: "Password must be at least 6 characters" });
     }
 
-    // If all the above Checks passed then, find that if the user already exists in the database, to avoid data duplication and creation of multiple accounts using single email id.
+    // If all the above Checks passed then, find that if the user already exists in the database?, to avoid data duplication and creation of multiple accounts using single email id.
     const user = await User.findOne({ email });
 
     // If the user is found, then return status code 400  and toast notification as user already exists.
@@ -69,8 +69,43 @@ export const signup = async(req, res) =>{
     }
 }
 
-export const login = (req, res) =>{
-    res.send("login route");
+export const login = async (req, res) =>{
+
+    // Destructuring all the required information from the body of the headers/req
+    const { email, password } = req.body;
+
+  try {
+
+    // find that if the user already exists in the database.
+    const user = await User.findOne({ email });
+
+    // if no user found, then send status code and msg with invalid credentials.
+    if (!user) {                                                        
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    // if user existed, we will now check that, is the password correct ?
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
+    // if the password is incorrect we will send the status code with the message
+    if (!isPasswordCorrect) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    // so now the passsword is correct, we generate the token 
+    generateToken(user._id, res);
+
+    // send back the data to client in json
+    res.status(200).json({
+      _id: user._id,
+      fullName: user.fullName,
+      email: user.email,
+      profilePic: user.profilePic,
+    });
+  } catch (error) {
+    console.log("Error in login controller", error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 }
 
 export const logout = (req, res) =>{
