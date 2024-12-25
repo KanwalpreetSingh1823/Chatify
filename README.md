@@ -2,7 +2,7 @@
 
 Chatify is a real-time chat application built using the MERN stack (MongoDB, Express, React, Node.js), Daisy UI for styling, and WebSocket.io for seamless communication.
 
-## Features
+## Features ##
 
 - **Real-time Messaging:** Instant messaging between users powered by WebSocket.io.
 - **User Authentication:** Secure user sign-up, login, and session management.
@@ -21,5 +21,5 @@ Chatify is a real-time chat application built using the MERN stack (MongoDB, Exp
 ## Team Members
 - Kanwalpreet Singh
 - Kshitiz Vardhan
-- Kritika Sachdeva
 - Jasmeen Singh
+- Kritika Sachdeva
