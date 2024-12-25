@@ -18,13 +18,13 @@ Chatify is a real-time chat application built using the MERN stack (MongoDB, Exp
 - **Database:** MongoDB
 - **Real-Time Communication:** WebSocket.io
 
-Future Enhancements
+## Future Enhancements
 
-- **Group Chats: Support for creating and managing group conversations.
-- **Media Sharing: Send and receive images, videos, and files.
-- **Message Reactions: React to messages with emojis.
-- **Read Receipts: Know when your messages are read.
-- **Push Notifications: Stay informed even when offline.
+- Group Chats: Support for creating and managing group conversations.
+- Media Sharing: Send and receive images, videos, and files.
+- Message Reactions: React to messages with emojis.
+- Read Receipts: Know when your messages are read.
+- Push Notifications: Stay informed even when offline.
 
 ## Team Members
 - Kanwalpreet Singh
