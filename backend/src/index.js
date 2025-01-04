@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 
 import { connectDB } from "./lib/db.js";
 import authRoutes from "./routes/auth.route.js";
+import messageRoutes from "./routes/message.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
@@ -25,6 +26,9 @@ app.use(cookieParser());  // It will allow to parse the cookies from requests
 
 // Authentication routes
 app.use("/api/auth", authRoutes);
+
+// Message Routes
+app.use("/api/message", messageRoutes);
 
 // Start server and connect to the database
 const PORT = process.env.PORT || 5001;  // Ensure you set a default port if it's undefined
