@@ -1,16 +1,34 @@
 import express from "express";
 import dotenv from "dotenv";
-const app = express();
 
-import {connectDB} from "./lib/db.js";
+import { connectDB } from "./lib/db.js";
 import authRoutes from "./routes/auth.route.js";
+import cookieParser from "cookie-parser";
+import cors from "cors";
 
 dotenv.config();
-// Creating the first route for authentication
-app.use("/api/auth", authRoutes)
+const app = express();
 
-const PORT = process.env.PORT;
-app.listen(PORT, ()=>{
-    console.log(`Server is running on PORT : ${PORT}`);
-    connectDB();
-})
+// CORS configuration (should be placed before cookieParser)
+app.use(cors({
+    origin: 'http://localhost:5173',  // Allow requests from this origin (your React app)
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Allowed HTTP methods
+    credentials: true,  // Allow cookies (JWT tokens) to be sent along with requests
+    allowedHeaders: ['Content-Type', 'Authorization'],  // Allowed headers
+}));
+
+// Body parser middleware to parse JSON in the request body
+app.use(express.json());  // It will allow to parse the JSON body
+
+// Cookie parser middleware (this should come after CORS)
+app.use(cookieParser());  // It will allow to parse the cookies from requests
+
+// Authentication routes
+app.use("/api/auth", authRoutes);
+
+// Start server and connect to the database
+const PORT = process.env.PORT || 5001;  // Ensure you set a default port if it's undefined
+app.listen(PORT, () => {
+    console.log(`Server is running on PORT: ${PORT}`);
+    connectDB();  // Connect to the database when the server starts
+});
