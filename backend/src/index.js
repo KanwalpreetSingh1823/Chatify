@@ -5,8 +5,14 @@ import { connectDB } from "./lib/db.js";
 import authRoutes from "./routes/auth.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import path from "path";
 
 dotenv.config();
+
+// Start server and connect to the database
+const PORT = process.env.PORT || 5001;  // Ensure you set a default port if it's undefined
+const __dirname = path.resolve();
+
 const app = express();
 
 // CORS configuration (should be placed before cookieParser)
@@ -26,8 +32,14 @@ app.use(cookieParser());  // It will allow to parse the cookies from requests
 // Authentication routes
 app.use("/api/auth", authRoutes);
 
-// Start server and connect to the database
-const PORT = process.env.PORT || 5001;  // Ensure you set a default port if it's undefined
+if(process.env.NODE_ENV === "production"){
+    app.use(express.static(path.join(__dirname, "../frontend/dist")));  // Using Static MiddleWare
+
+    app.get("*", (req, res)=>{
+        res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
+    })
+}
+
 app.listen(PORT, () => {
     console.log(`Server is running on PORT: ${PORT}`);
     connectDB();  // Connect to the database when the server starts

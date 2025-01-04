@@ -1,0 +1,13 @@
+{
+  "name": "chatify",
+  "version": "1.0.0",
+  "description": "Chatify is a real-time chat application built using the MERN stack (MongoDB, Express, React, Node.js), Daisy UI for styling, and WebSocket.io for seamless communication.",
+  "main": "index.js",
+  "scripts": {
+    "build" : "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
+    "start": "npm run start --prefix backend"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
