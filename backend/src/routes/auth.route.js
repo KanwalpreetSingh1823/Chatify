@@ -10,7 +10,7 @@ router.post("/login", login);
 
 router.post("/logout", logout);
 
-router.post("/update-profile",protectRoute, updateProfile);
+router.put("/update-profile",protectRoute, updateProfile);
 // this route is protected, which means if the user is logged in / authenticated --> then only he/she can update the profile.
 
 router.get("/check", protectRoute, checkAuth); // Sends back the authenticated user to client
