@@ -5,7 +5,8 @@ export const protectRoute = async (req, res, next) => {
   try {
 
     // Log cookies to inspect if jwt is present
-    console.log("Cookies:", req.cookies);
+    // console.log("Cookies:", req.cookies);
+    
     // Get the token from user cookies
     const token = req.cookies.jwt;
 

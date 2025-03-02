@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { connectDB } from "./lib/db.js";
 import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
+import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
@@ -17,6 +18,9 @@ app.use(cors({
     credentials: true,  // Allow cookies (JWT tokens) to be sent along with requests
     allowedHeaders: ['Content-Type', 'Authorization'],  // Allowed headers
 }));
+
+app.use(bodyParser.json({ limit: '50mb' }));  // Increase limit for JSON
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));  // Increase limit for URL-encoded data
 
 // Body parser middleware to parse JSON in the request body
 app.use(express.json());  // It will allow to parse the JSON body
