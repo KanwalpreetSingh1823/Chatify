@@ -32,7 +32,7 @@ app.use(cookieParser());  // It will allow to parse the cookies from requests
 app.use("/api/auth", authRoutes);
 
 // Message Routes
-app.use("/api/message", messageRoutes);
+app.use("/api/messages", messageRoutes);
 
 // Start server and connect to the database
 const PORT = process.env.PORT || 5001;  // Ensure you set a default port if it's undefined
