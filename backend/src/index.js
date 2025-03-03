@@ -38,7 +38,7 @@ app.use(cookieParser());  // It will allow to parse the cookies from requests
 app.use("/api/auth", authRoutes);
 
 // Message Routes
-app.use("/api/message", messageRoutes);
+app.use("/api/messages", messageRoutes);
 
 if(process.env.NODE_ENV === "production"){
     app.use(express.static(path.join(__dirname, "../frontend/dist")));  // Using Static MiddleWare
